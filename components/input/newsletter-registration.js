@@ -1,9 +1,11 @@
 import classes from "./newsletter-registration.module.css";
-import { useRef, useState } from "react";
+import { useRef, useState, useContext } from "react";
+import NotificationContext from "../../store/notification-context";
 
 function NewsletterRegistration() {
   const [registerSucces, setRegisterSuccess] = useState(false);
   const emailInputRef = useRef();
+  const notificationCtx = useContext(NotificationContext);
 
   function registrationHandler(event) {
     event.preventDefault();
@@ -14,6 +16,12 @@ function NewsletterRegistration() {
       email: enteredEmail,
     };
 
+    notificationCtx.showNotification({
+      title: "Singing up",
+      message: "registering for newsletter",
+      status: "pending",
+    });
+
     fetch("/api/register", {
       method: "POST",
       body: JSON.stringify(bodyReq),
@@ -21,11 +29,33 @@ function NewsletterRegistration() {
         "Content-Type": "application/json",
       },
     })
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+
+        response.json().then((data) => {
+          throw new Error(data.message || "Something went wrong");
+        });
+      })
       .then((data) => {
         if (data.success) {
+          notificationCtx.showNotification({
+            title: "Success!",
+            message: "Thank you for registering.",
+            status: "success",
+          });
           setRegisterSuccess(true);
         }
+      })
+      .catch((error) => {
+        notificationCtx.showNotification({
+          title: "Error",
+          message:
+            error.message ||
+            "Something went wrong. Please try again in a minute.",
+          status: "error",
+        });
       });
   }
 
