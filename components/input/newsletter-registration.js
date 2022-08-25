@@ -27,10 +27,6 @@ function NewsletterRegistration() {
           setRegisterSuccess(true);
         }
       });
-
-    // fetch user input (state or refs)
-    // optional: validate input
-    // send valid data to API
   }
 
   return (
