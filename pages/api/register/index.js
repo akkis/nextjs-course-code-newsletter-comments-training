@@ -7,7 +7,7 @@ function handler(req, res) {
 
       res.status(201).json({ success: true, message: "Success!" });
     } else {
-      res.status(400).json({ success: false, message: "Email missing!" });
+      res.status(422).json({ success: false, message: "Email missing!" });
     }
   }
 }
