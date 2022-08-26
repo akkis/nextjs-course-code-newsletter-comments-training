@@ -3,7 +3,7 @@ function handler(req, res) {
     const email = req.body.email ?? null;
 
     if (email) {
-      console.log(`${email} registered successfuly!`);
+      // console.log(`${email} registered successfuly!`);
 
       res.status(201).json({ success: true, message: "Success!" });
     } else {
