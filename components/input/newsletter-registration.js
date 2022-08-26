@@ -12,6 +12,15 @@ function NewsletterRegistration() {
 
     const enteredEmail = emailInputRef.current.value;
 
+    if (!enteredEmail || enteredEmail.trim() === '' || !enteredEmail.includes("@")) {
+      notificationCtx.showNotification({
+        title: "Missing email",
+        message: "Enter an valid address",
+        status: "error",
+      });
+      return;
+    }
+
     const bodyReq = {
       email: enteredEmail,
     };
