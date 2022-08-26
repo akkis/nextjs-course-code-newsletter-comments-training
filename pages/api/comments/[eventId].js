@@ -23,9 +23,9 @@ export default function handler(req, res) {
       text,
     };
 
-    console.log(newComment);
+    // res.status(422).json({ message: "Invalid Input" });
 
-    res.status(201).json({ message: "Comment added.", comment: newComment });
+    res.status(201).json({success: true, message: "Comment added.", comment: newComment });
   } else if (req.method === "GET") {
     const dummyList = [
       {
